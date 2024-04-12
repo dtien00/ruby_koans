@@ -30,7 +30,26 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 # Your goal is to write the score method.
 
 def score(dice)
-  # You need to write this method
+  # 04/11/2024
+  # Take counts of all 5 numbers
+  # Take notes of only those of 3s and ups
+  #   Special behavior for ones and fives, can have more than 3
+  dice = dice.sort
+  greed = 0
+  greed_hash = Hash.new
+  (1..6).each do |roll|
+    greed_hash[roll] = dice.find_all {|val| val == roll} 
+  end
+  greed_hash.each do |key, array|
+    if key == 1
+      greed += (array.length()/3)*1000 + (array.length()%3)*100
+    elsif key == 5
+      greed += (array.length()/3)*500 + (array.length()%3)*50
+    else
+      greed += (array.length()/3)*100*key
+    end
+  end
+  greed
 end
 
 class AboutScoringProject < Neo::Koan
